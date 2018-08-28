@@ -12,18 +12,18 @@ repositories {
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
 
-    implementation 'org.koin:koin-core:0.9.3'
     compile 'com.amazonaws:aws-lambda-java-core:1.0.0'
     compile 'com.amazonaws:aws-lambda-java-events:1.0.0'
 
+    compile 'org.koin:koin-core:0.9.3'
     testImplementation 'org.koin:koin-test:0.9.3'
 
-    implementation 'com.squareup.retrofit2:retrofit:2.4.0'
-    implementation "com.squareup.retrofit2:converter-moshi:2.4.0"
-    implementation 'com.squareup.moshi:moshi:1.6.0'
-    implementation "com.squareup.moshi:moshi-kotlin:1.6.0"
+    compile 'com.squareup.retrofit2:retrofit:2.4.0'
+    compile "com.squareup.retrofit2:converter-moshi:2.4.0"
+    compile 'com.squareup.moshi:moshi:1.6.0'
+    compile "com.squareup.moshi:moshi-kotlin:1.6.0"
 
     testImplementation "org.junit.jupiter:junit-jupiter-api:5.0.0-M3"
     testImplementation 'org.jetbrains.spek:spek-api:1.1.5'
