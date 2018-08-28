@@ -1,7 +1,8 @@
 package com.github.kitwtnb.weathernotification.data
 
+import com.github.kitwtnb.weathernotification.data.WeatherTest.moshi
+import com.github.kitwtnb.weathernotification.di.jsonMapperModule
 import com.squareup.moshi.Moshi
-import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import io.kotlintest.fail
 import io.kotlintest.shouldBe
 import io.kotlintest.shouldNotBe
@@ -9,23 +10,23 @@ import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.describe
 import org.jetbrains.spek.api.dsl.it
 import org.jetbrains.spek.api.dsl.on
+import org.koin.standalone.KoinComponent
+import org.koin.standalone.StandAloneContext.startKoin
+import org.koin.standalone.inject
 import testJson
 
 object WeatherTest: Spek({
-    val moshi = Moshi.Builder()
-            .add(KotlinJsonAdapterFactory())
-            .build()
-            .adapter(Weather::class.java)
+    val jsonAdapter = moshi.adapter(Weather::class.java)
 
     describe("Weather class") {
         on("convert from json") {
             it("is success") {
-                moshi.fromJson(testJson) shouldNotBe null
+                jsonAdapter.fromJson(testJson) shouldNotBe null
             }
         }
 
         on("succeed convert from json") {
-            val weather = moshi.fromJson(testJson) ?: fail("return null")
+            val weather = jsonAdapter.fromJson(testJson) ?: fail("return null")
             it("is same json") {
                 weather.run {
                     location.run {
@@ -89,4 +90,11 @@ object WeatherTest: Spek({
             }
         }
     }
-})
+}), KoinComponent {
+    // FIXME: I don't know the right way for using di...
+    val moshi: Moshi by inject()
+
+    init {
+        startKoin(listOf(jsonMapperModule))
+    }
+}
