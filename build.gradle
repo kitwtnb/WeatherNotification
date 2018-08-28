@@ -6,12 +6,16 @@ group 'com.github.kitwtnb'
 version '1.0-SNAPSHOT'
 
 repositories {
+    jcenter()
     mavenCentral()
     maven { url "http://dl.bintray.com/jetbrains/spek" }
 }
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+
+    implementation 'org.koin:koin-core:0.9.3'
+    testImplementation 'org.koin:koin-test:0.9.3'
 
     implementation 'com.squareup.retrofit2:retrofit:2.4.0'
     implementation "com.squareup.retrofit2:converter-moshi:2.4.0"
