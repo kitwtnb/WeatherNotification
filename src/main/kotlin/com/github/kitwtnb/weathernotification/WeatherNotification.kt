@@ -10,8 +10,10 @@ class WeatherNotification : KoinComponent {
     private val slackService: SlackService by inject()
 
     fun run(cityCode: String, slackChannelKey: String) {
-        weatherService.getWeather(cityCode).execute().body()?.let {
-            slackService.post(slackChannelKey, weatherToSlackPayload(it)).execute()
+        weatherService.getWeather(cityCode).execute().body()?.let { weather ->
+            if (weather.forecasts.first { it.dateLabel == "今日" }.telop.contains("雨")) {
+                slackService.post(slackChannelKey, weatherToSlackPayload(weather)).execute()
+            }
         }
     }
 }
