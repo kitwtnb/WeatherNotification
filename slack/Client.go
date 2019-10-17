@@ -3,7 +3,6 @@ package slack
 import (
 	"bytes"
 	"encoding/json"
-	"fmt"
 	"net/http"
 )
 
@@ -31,7 +30,7 @@ func (client *Client) Post(param Param) (int, error) {
 	httpClient := &http.Client{}
 	response, err := httpClient.Do(request)
 	if err != nil {
-		fmt.Print(err)
+		return -1, err
 	}
 
 	return response.StatusCode, nil

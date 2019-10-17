@@ -4,7 +4,8 @@ import (
 	"encoding/json"
 	. "fmt"
 	. "github.com/kitwtnb/WeatherNotification/data"
-	"github.com/kitwtnb/WeatherNotification/slack"
+	"github.com/kitwtnb/WeatherNotification/weather"
+	"strings"
 )
 
 func main() {
@@ -23,16 +24,33 @@ func main() {
 	}
 	Println(param.Slack.WebHookUrl)
 
-	postParam := slack.Param{
-		Text:      "<!channel>\nhello go",
-	}
 
-	var client = slack.Client { WebHookUrl: param.Slack.WebHookUrl }
-	statusCode, err := client.Post(postParam)
+	var weatherClient = new (weather.Client)
+	info, err := weatherClient.Fetch(weather.Param { CityCode: "016010" })
 	if err != nil {
 		Println("error: ", err)
 		return
 	}
 
-	Println(statusCode)
+	var forecast *weather.Forecasts = nil
+	for _, f := range info.Forecasts {
+		if f.DateLabel == "今日" && strings.Contains(f.Telop, "雨") {
+			forecast = &f
+			break
+		}
+	}
+	Println(forecast)
+
+	//postParam := slack.Param{
+	//	Text:      "<!channel>\nhello go",
+	//}
+
+	//var client = slack.Client { WebHookUrl: param.Slack.WebHookUrl }
+	//statusCode, err := client.Post(postParam)
+	//if err != nil {
+	//	Println("error: ", err)
+	//	return
+	//}
+	//
+	//Println(statusCode)
 }
