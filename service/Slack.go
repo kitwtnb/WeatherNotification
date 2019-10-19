@@ -1,5 +1,5 @@
-package data
+package service
 
-type ParamSlack struct {
+type Slack struct {
 	WebHookUrl string `json:"web_hook_url"`
 }

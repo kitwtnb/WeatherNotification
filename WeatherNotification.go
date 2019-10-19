@@ -3,27 +3,31 @@ package weathernotification
 import (
 	"context"
 	"encoding/json"
-	. "github.com/kitwtnb/WeatherNotification/data"
+	"github.com/kitwtnb/WeatherNotification/service"
 	"log"
 )
 
 // PubSubMessage is the payload of a Pub/Sub event. Please refer to the docs for
 // additional information regarding Pub/Sub events.
 type PubSubMessage struct {
-	Data []byte `json:"data"`
+	Data []byte `json:"input"`
 }
-
 
 // HelloPubSub consumes a Pub/Sub message.
 func Notification(ctx context.Context, m PubSubMessage) error {
-	var i Parameter
-
-	err := json.Unmarshal(m.Data, &i)
+	var param service.Parameter
+	err := json.Unmarshal(m.Data, &param)
 	if err != nil {
 		log.Printf("Error:%T message: %v", err, err)
-		return nil
+		return err
 	}
 
-	log.Printf("your name is %s", i.Name)
+	service := new(service.WeatherNotificationService)
+	err = service.Run(param)
+	if err != nil {
+		log.Println("error: ", err)
+		return err
+	}
+
 	return nil
 }
