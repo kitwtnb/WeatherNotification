@@ -11,7 +11,7 @@ func main() {
 	"weathers": [
 		{
 			"city_code": "016010",
-			"description": "札幌"
+			"description": "sapporo"
 		}
 	],
 	"slack": {
